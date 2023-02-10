@@ -1,0 +1,60 @@
+#! /bin/sh
+
+pgrep -x sxhkd > /dev/null || sxhkd &
+
+$HOME/.config/polybar/launch.sh &
+$HOME/.config/bspwm/windows_rules.sh &
+
+/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+
+
+nitrogen --restore &
+conky -c ~/.conky/ConkyArch/ArchSmallNoSwap &
+
+bspc monitor eDP-1 -d I II III IV V VI VII VIII
+bspc monitor HDMI-1 -d IX X
+bspc monitor eDP-1 -s HDMI-1
+
+#BSPDIR="$HOME/.config/bspwm"
+#export PATH="${PATH}:$BSDIR/scripts"
+
+bspc config window_gap          	8
+bspc config border_width        	1
+bspc config split_ratio			0.52
+
+bspc config top_padding			0
+bspc config bottom_padding		0
+bspc config left_padding 		0
+bspc config right_padding 		0
+
+bspc config remove_disabled_monitors 	true
+bspc config merge_overlapping_monitors	true
+
+bspc config gapless_monocle 		true
+bspc config borderless_monocle		true
+bspc config presel_feedback		true
+bspc config auto_alternate		true
+bspc config pointer_follows_focus	false
+bspc config pointer_follows_windows	true
+
+bspc config normal_border_color 	"#FF0000"
+bspc config focused_border_color	"#000000"
+bspc config presel_feedback_color	"#A3BE8C"
+
+bspc rule -a Joplin desktop=IV follow=On focus=Off
+bspc rule -a Chromium desktop=II
+bsoc rule -a Vscodium desktop=V follow=off
+bspc rule -a Pcmanfm desktop=III follow=on
+bspc rule -a Google-chrome desktop=II follow=on
+bspc rule -a LibreWolf desktop=II follow=on
+bspc rule -a firefoxdeveloperedition desktop=II follow=on
+bspc rule -a TelegramDesktop desktop=VI follow=on focus=off
+bspc rule -a Conky state=floating follow=on manage=off
+					
+#==============================================#
+#                  AUTO START                  #
+#==============================================#
+picom &
+blueberry &
+telegram-desktop &
+plank &

@@ -1,0 +1,147 @@
+### wm independent hotkeys
+
+# Terminal
+super + Return
+	kitty
+
+# Rofi
+super + space
+	rofi -show drun window
+
+# Reload sxhkd config
+super + Escape
+	pkill -USR1 -x sxhkd
+
+# focus the last node/desktop
+super + {grave,Tab}
+	bspc {node,desktop} -f last
+
+#==============================================#
+#                 BSPWM HOTKEYS                #
+#==============================================#
+						
+# PowerOff - Reboot - Logout - Lock - Lock & Suspend
+ctrl + shift + {p,r,x,l,b}
+	{systemctl poweroff,systemctl reboot,bspc quit,betterlockscreen --lock ,betterlockscreen -l dim & systemctl suspend}
+					
+# Restart WM
+super + alt + r
+	bspc wm -r
+
+# Close or kill apps
+super + {_,shift + }x
+	bspc node -{c,k}
+
+# alternate between the tiled and monocle layout
+super + m
+	bspc desktop -l next
+
+# swap the current node and the biggest window
+super + g
+	bspc node -s biggest.window
+							
+################################
+#         state/flags          #
+################################
+
+# set the window state
+super + {t,shift + t,s,f}
+	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
+				
+################################
+#         focus/swap           #
+################################
+
+# focus the node in the given direction
+super + {_,shift + }{h,j,k,l}
+	bspc node -{f,s} {west,south,north,east}
+
+# focus the node for the given path jump
+super + {p,b,comma,period}
+	bspc node -f @{parent,brother,first,second}
+
+# focus or send to the given desktop
+super + {_,shift + }{1-9,0}
+	bspc {desktop -f,node -d} '^{1-9,10}'
+
+# focus the next/previous window in the current desktop
+super + {_,shift}v
+        bspc node -f {next,prev}.local.!hidden.window
+
+################################
+
+################################
+
+# preselect the direction
+super + shift + {Left,Down,Up,Right}
+	bspc node -p {west,south,north,east}
+
+# preselect the ratio
+super + ctrl + {1-9}
+	bspc node -o 0.{1-9}
+
+# cancel the preselection for the focused node
+super + ctrl + space
+	bspc node -p cancel
+
+################################
+#         move/resize          #
+################################
+
+# EXPANDIR VENTANAS HACIA LA IZQUIERDA
+super + alt + {Left,Down,Up,Right}
+        bspc node -z {left -40 0,bottom 0 40,top 0 -40,right 40 0}
+
+# CONTRAER VENTANAS HACIA LA DERECHA
+super + ctrl + {Left,Down,Up,Right}
+        bspc node -z {right -40 0,top 0 40,bottom 0 -40,left 40 0}
+
+# MOVER UNA VENTANA FLOTANTE
+super + {Left,Down,Up,Right}
+        bspc node -v {-30 0,0 30,0 -30,30 0}
+					
+########################################
+#           TECLAS ESPECIALES          #
+########################################
+
+# Brightness control
+
+{XF86MonBrightnessUp,XF86MonBrightnessDown}
+	{brightnessctl set 10%+,brightnessctl set 10%-}
+
+# Volume control
+
+{XF86AudioRaiseVolume,XF86AudioLowerVolume,XF86AudioMute}
+	{pamixer --increase 10,pamixer --decrease 10,pamixer --toggle-mute}
+
+# Screenshot
+Print
+        ~/.config/bspwm/screenshot.sh
+
+# Polybar Toggle
+super + u
+	polybar-msg {cmd hide | bspc config top_padding 0,cmd show | bspc config top_padding 40}
+					
+########################################
+#           ACCESOS DIRECTOS           #
+########################################
+
+# Firefox - Chrome - Thunar - PcManFM
+super + ctrl + {f,w,t,p}
+	{firefox-developer-edition ,google-chrome-stable ,Thunar ,pcmanfm}
+
+# Leafpad - VsCodium - OnlyOffice - Blueberry
+super + ctrl + {l,v,0,b}
+	{leafpad,vscodium ,desktopeditors ,blueberry}
+
+# Librewolf - Telegram
+super + alt + {l,t,n,u}
+	{librewolf ,telegram-desktop ,Neovim ,ulauncher}
+
+# Chromium - Joplin - Alacritty - Exaile - Sticky
+super + shift + {c,j,a,e,n}
+	{chromium ,joplin-desktop ,alacritty ,exaile ,sticky}
+
+# Private-window
+super + alt  + p
+	{librewolf --private-window}
